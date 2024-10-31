@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cálculo Peso Corporal</title>
+    <style>
+        body {
+            font-family: Georgia, 'Times New Roman', Times, serif, sans-serif;
+            background-image: url('src/img/comidafondo.avif');
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+            color: #cc4d57; /* Color del título */
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input {
+            margin-top: 5px;
+            padding: 5px;
+            width: calc(100% - 22px);
+            border: 1px solid #4d8b62;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 5px;
+            width: 100%;
+           background-color: #4c815e; /* Color del botón */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Cálculo de Estado de Peso</h1>
+        <form action="" onsubmit="calcular_estado_peso(event)">
+            <label for="altura">Altura (m):</label>
+            <input type="number" name="altura" id="altura" step="0.01" min="0" required>
+            <label for="peso">Peso (kg):</label>
+            <input type="number" name="peso" id="peso" step="0.1" min="0" required>
+            <button type="submit">Calcular Estado de Peso</button>
+        </form>
+        <h2 id="resu"></h2>
+        <img id="pesos" src="" alt="" srcset="">
+    </div>
+
+    <script type="text/javascript">
+        function calcular_estado_peso(event) {
+            event.preventDefault();
+            var altura = parseFloat(document.getElementById("altura").value);
+            var peso = parseFloat(document.getElementById("peso").value);
+            var imgpeso = document.getElementById("pesos");
+
+            if (altura > 0) {
+                var imc = peso / (altura * altura);
+
+                var estado;
+                if (imc < 19 && imc > 0) {
+                    estado = "bajo peso";
+                    imgpeso.setAttribute("src","src/img/bajo_peso.png");
+                } else if (imc >= 18 && imc < 25) {
+                    estado = "peso adecuado";
+                    imgpeso.setAttribute("src","src/img/peso_adecuado.png");
+                } else if (imc > 25) {
+                    estado = "sobrepeso";
+                    imgpeso.setAttribute("src","src/img/sobrepeso.png");
+                }
+                document.getElementById("resu").innerText = "Estado: " + estado;
+            } else {
+                document.getElementById("resu").innerText = "Por favor, ingresa una altura válida.";
+            }
+        }
+    </script>
+</body>
+</html>
