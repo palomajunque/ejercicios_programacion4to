@@ -1,0 +1,22 @@
+function convertirUnidad(valor, unidadOrigen, unidadDestino) {
+    const conversiones = {
+        km: 1000,
+        m: 1,
+        cm: 0.01,
+        mm: 0.001
+    };
+
+    // Convertir el valor a metros
+    let valorEnMetros = valor * conversiones[unidadOrigen];
+
+    // Convertir de metros a la unidad destino
+    return valorEnMetros / conversiones[unidadDestino];
+}
+
+// Ejemplo de uso
+const valor = 5; // Puedes cambiar este valor
+const unidadOrigen = 'km'; // Unidad de origen
+const unidadDestino = 'cm'; // Unidad de destino
+
+const resultado = convertirUnidad(valor, unidadOrigen, unidadDestino);
+console.log(`${valor} ${unidadOrigen} son ${resultado} ${unidadDestino}`);
