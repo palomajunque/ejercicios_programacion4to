@@ -3,108 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conversor de Unidades</title>
+    <title> Pasaje de Unidades </title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            max-width: 400px;
+            font-family: Georgia, 'Times New Roman', Times, serif, sans-serif;
+            background-color: #f3e9dc;
         }
-        input, select {
-            width: 100%;
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 50px;
+            border-radius: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #cc4d57; /* Color del título */
+        }
+        label {
+            display: block;
+            margin-top: 20px;
+        }
+        input {
+            margin-top: 10px;
             padding: 10px;
-            margin: 10px 0;
+            width: calc(100% - 22px);
+            border: 1px solid #4d8b62;
+            border-radius: 5px;
+            font-size: 20px;
         }
         button {
+            margin-top: 20px;
             padding: 10px;
-            background-color: #007BFF;
+            width: 100%;
+           background-color: #4c815e; /* Color del botón */
             color: white;
             border: none;
             border-radius: 5px;
+            font-size: 20px;
             cursor: pointer;
         }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .resultado {
-            margin-top: 20px;
-            font-weight: bold;
-        }
+
     </style>
 </head>
 <body>
+    <div class="container"> 
+    </h2> Pasaje de Unidades</h2>
+    <input type="number" id="inputValue" placeholder="ingrese valor" step="any">
 
-    <h1>Conversor de Unidades</h1>
-    
-    <label for="valor">Valor:</label>
-    <input type="number" id="valor" placeholder="Introduce el valor">
-
-    <label for="unidad">Unidad:</label>
-    <select id="unidad">
-        <option value="m">Metros (m)</option>
-        <option value="km">Kilómetros (km)</option>
-        <option value="cm">Centímetros (cm)</option>
-        <option value="mm">Milímetros (mm)</option>
+    <label for="inputUnit">Convertir de:</label>
+    <select id="inputUnit">
+        <option value="mm"> milimetros (mm) </option>
+        <option value="cm"> centimetros (cm) </option>
+        <option value="m"> metros (m) </option>
+        <option value="km"> kilometros (km) </option>
     </select>
+    <label for="outputUnit">Convertir a:</label>
+    <select id="outputUnit">
+        <option value="mm"> milimetros (mm) </option>
+        <option value="cm"> centimetros (cm) </option>
+        <option value="m"> metros (m) </option>
+        <option value="km"> kilometros (km) </option>
+    </select>
+    <button onclick="convert()">Convertir</button>
+    <div class="result" id="result"></div>
+    </div>
 
-    <button onclick="convertir()">Convertir</button>
+    <script type="text/javascript">
+    function convertirUnidad(valor, unidadOrigen, unidadDestino) {
+    let valorEnMetros;
+    let uo = unidadOrigen.options[unidadOrigen.selectedIndex].value
+    if (uo === "mm") {
+        valorEnMetros = valor / 1000;
+    } else if (uo === "cm") {
+        valorEnMetros = valor / 100;
+    } else if (uo === "m") {
+        valorEnMetros = valor;
+    } else if (uo === "km") {
+        valorEnMetros = valor * 1000;
+    } else {
+        console.log("Unidad de origen no válida");
+        return;
+    }
 
-    <div class="resultado" id="resultado"></div>
+    let resultado;
+    let ud = unidadDestino.options[unidadDestino.selectedIndex].value
+    if (ud === "mm") {
+        resultado = valorEnMetros * 1000;
+    } else if (ud === "cm") {
+        resultado = valorEnMetros * 100;
+    } else if (ud === "m") {
+        resultado = valorEnMetros;
+    } else if (ud === "km") {
+        resultado = valorEnMetros / 1000;
+    } else {
+        console.log("Unidad de destino no válida");
+        return;
+    }
+    document.getElementById("result").innerText = `${valor} ${unidadOrigen.options[unidadOrigen.selectedIndex].value} son ${resultado} ${unidadDestino.options[unidadDestino.selectedIndex].value}`
+    //console.log(`${valor} ${unidadOrigen} son ${resultado} ${unidadDestino}`);
+}
 
-    <script>
-        function convertir() {
-            const valor = parseFloat(document.getElementById('valor').value);
-            const unidad = document.getElementById('unidad').value;
-            let resultado = 0;
-
-            if (isNaN(valor)) {
-                document.getElementById('resultado').innerText = "Por favor, introduce un número válido.";
-                return;
-            }
-
-            switch (unidad) {
-                case 'm':
-                    resultado = {
-                        km: valor / 1000,
-                        cm: valor * 100,
-                        mm: valor * 1000
-                    };
-                    break;
-                case 'km':
-                    resultado = {
-                        m: valor * 1000,
-                        cm: valor * 100000,
-                        mm: valor * 1000000
-                    };
-                    break;
-                case 'cm':
-                    resultado = {
-                        m: valor / 100,
-                        km: valor / 100000,
-                        mm: valor * 10
-                    };
-                    break;
-                case 'mm':
-                    resultado = {
-                        m: valor / 1000,
-                        km: valor / 1000000,
-                        cm: valor / 10
-                    };
-                    break;
-            }
-
-            document.getElementById('resultado').innerHTML = `
-                ${valor} ${unidad} es igual a:<br>
-                ${resultado.km ? resultado.km.toFixed(6) + ' km' : ''}<br>
-                ${resultado.m ? resultado.m.toFixed(6) + ' m' : ''}<br>
-                ${resultado.cm ? resultado.cm.toFixed(6) + ' cm' : ''}<br>
-                ${resultado.mm ? resultado.mm.toFixed(6) + ' mm' : ''}
-            `;
-        }
-    </script>
-
-</body>
-</html>
+function convert() {
+    let valor = document.getElementById("inputValue").value;
+    let unidadOrigen = document.getElementById("inputUnit");
+    //unidadOrigen.options[unidadOrigen.selectedIndex].value
+    let unidadDestino = document.getElementById("outputUnit")  ;
+    
+    convertirUnidad(parseFloat(valor), unidadOrigen, unidadDestino);
+}
+</script>
